@@ -135,8 +135,26 @@ Follow prompts to enable @.claude PR reviews.
 
 ## Step 8: Learn Key Workflows
 
-### Start in Plan Mode
-Press `Shift+Tab` twice to enter plan mode before coding tasks.
+### CRITICAL: Always Start in Plan Mode
+**Default workflow:** Press `Shift+Tab` twice BEFORE giving any coding task.
+
+**Use plan mode for:**
+- ✅ Creating any PR (100% of the time)
+- ✅ Adding features, even small ones
+- ✅ Multi-file changes or refactors
+- ✅ Bug fixes beyond single-line changes
+- ✅ Performance optimizations
+- ✅ Any code change affecting existing behavior
+- ✅ When you're unsure what the best approach is
+
+**Skip plan mode only for:**
+- ❌ Single-line typo fixes
+- ❌ Adding a single console.log for debugging
+- ❌ Pure research/exploration questions
+
+**Why this matters:** Plan mode prevents wasted implementation time. Claude will explore your codebase, understand existing patterns, and draft an approach for your approval. This 30-second planning step eliminates 5+ minutes of back-and-forth fixes from wrong implementations.
+
+**Mental model:** Would you create a PR for this change? → Use plan mode.
 
 ### Use Opus 4.5
 Run `/model` and select Opus 4.5 for best results.

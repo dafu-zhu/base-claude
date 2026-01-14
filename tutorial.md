@@ -2,7 +2,7 @@
 
 1. I run 5 Claudes in parallel in my terminal. I number my tabs 1-5, and use system notifications to know when a Claude needs input 
 
-![alt text](image-6.png)
+![alt text](./img/image-6.png)
 
 Use Iterm 2, [Notification setup](https://code.claude.com/docs/en/terminal-config#iterm-2-system-notifications)
 
@@ -10,7 +10,7 @@ Use Iterm 2, [Notification setup](https://code.claude.com/docs/en/terminal-confi
 
 2. I also run 5-10 Claudes on http://claude.ai/code, in parallel with my local Claudes. As I code in my terminal, I will often hand off local sessions to web (using &), or manually kick off sessions in Chrome, and sometimes I will --teleport back and forth. I also start a few sessions from my phone (from the Claude iOS app) every morning and throughout the day, and check in on them later.
 
-![alt text](image-7.png)
+![alt text](./img/image-7.png)
 
 > **Implementation:** Use `claude --resume` or `claude -c` to continue sessions. The `&` suffix uploads your session to claude.ai/code for web continuation. Use `claude --teleport` to pull a web session back to terminal. For iOS, install the Claude app and your sessions sync automatically. Web sessions at claude.ai/code share the same context and can run while you work locally.
 
@@ -51,15 +51,25 @@ bun run lint:claude && bun run test
 5. During code review, I will often tag @.claude on my coworkers' PRs to add something to the CLAUDE.md as part of the PR. We use the Claude Code Github action (/install-github-action) for this. It's our version of 
 @danshipper's Compounding Engineering
 
-![alt text](image-8.png)
+![alt text](./img/image-8.png)
 
 > **Implementation:** Run `/install-github-action` in Claude Code to set up the GitHub Action. Once installed, comment `@.claude <instruction>` on any PR. Claude will read the PR diff, follow your instruction, and commit changes. Use it to add CLAUDE.md entries, fix code style, add tests, or update docs. The action runs in GitHub's CI environment with access to your repo.
 
-6. Most sessions start in Plan mode (shift+tab twice). If my goal is to write a Pull Request, I will use Plan mode, and go back and forth with Claude until I like its plan. From there, I switch into auto-accept edits mode and Claude can usually 1-shot it. A good plan is really important!
+6. **ALWAYS start coding tasks in Plan mode** (shift+tab twice). This is non-negotiable for quality results. Plan mode prevents wasted effort and ensures alignment before Claude writes any code. Use it for:
+   - Any PR you're creating (100% of PRs should start with a plan)
+   - Multi-file changes or refactors
+   - New features (even small ones - "where should the button go?")
+   - Bug fixes that aren't single-line typos
+   - Performance optimizations
+   - Any task where the approach isn't immediately obvious
 
-![alt text](image-9.png)
+Once you approve the plan, switch to auto-accept edits mode and Claude will execute perfectly. A good plan is the difference between a 1-shot success and 3 rounds of back-and-forth.
+
+![alt text](./img/image-9.png)
 
 > **Implementation:** Press `Shift+Tab` twice to enter Plan mode (you'll see "Plan" indicator). In this mode, Claude explores the codebase and drafts a plan without making changes. Review and iterate on the plan with follow-up prompts. When satisfied, press `Shift+Tab` once to switch to Act mode, then press `Shift+Tab` again to enable auto-accept edits. Claude will execute the plan without prompting for each file change.
+>
+> **Critical Rule:** If you're unsure whether to use plan mode, USE IT. The cost of planning is ~30 seconds. The cost of incorrect implementation is 5+ minutes of fixes. Default to planning.
 
 7. I use slash commands for every "inner loop" workflow that I end up doing many times a day. This saves me from repeated prompting, and makes it so Claude can use these workflows, too. Commands are checked into git and live in .claude/commands/.
 
@@ -67,7 +77,7 @@ For example, Claude and I use a /commit-push-pr slash command dozens of times ev
 
 [https://code.claude.com/docs/en/slash-commands#bash-command-execution](https://code.claude.com/docs/en/slash-commands#bash-command-execution)
 
-![alt text](image-10.png)
+![alt text](./img/image-10.png)
 
 > **Implementation:** Create `.claude/commands/your-command.md` files. Use `${{ command }}` syntax to embed bash output. Example for `/commit-push-pr`:
 > ```markdown
@@ -83,13 +93,13 @@ For example, Claude and I use a /commit-push-pr slash command dozens of times ev
 
 [https://code.claude.com/docs/en/sub-agents](https://code.claude.com/docs/en/sub-agents)
 
-![alt text](image-11.png)
+![alt text](./img/image-11.png)
 
 > **Implementation:** Create `.claude/agents/code-simplifier.md` with instructions like "Review the recent changes and simplify overly complex code. Remove unnecessary abstractions. Prefer readability over cleverness." Create `.claude/agents/verify-app.md` with testing steps specific to your app. Invoke with `/agent:code-simplifier` or Claude will use them automatically when relevant. Subagents run as separate Claude instances with focused context.
 
 9. We use a PostToolUse hook to format Claude's code. Claude usually generates well-formatted code out of the box, and the hook handles the last 10% to avoid formatting errors in CI later.
 
-![alt text](image-12.png)
+![alt text](./img/image-12.png)
 
 > **Implementation:** Add to `.claude/settings.json`:
 > ```json
@@ -109,7 +119,7 @@ For example, Claude and I use a /commit-push-pr slash command dozens of times ev
 
 10. I don't use --dangerously-skip-permissions. Instead, I use /permissions to pre-allow common bash commands that I know are safe in my environment, to avoid unnecessary permission prompts. Most of these are checked into .claude/settings.json and shared with the team.
 
-![alt text](image-13.png)
+![alt text](./img/image-13.png)
 
 > **Implementation:** Add to `.claude/settings.json`:
 > ```json
@@ -127,7 +137,7 @@ For example, Claude and I use a /commit-push-pr slash command dozens of times ev
 
 11. Claude Code uses all my tools for me. It often searches and posts to Slack (via the MCP server), runs BigQuery queries to answer analytics questions (using bq CLI), grabs error logs from Sentry, etc. The Slack MCP configuration is checked into our .mcp.json and shared with
 
-![alt text](image-14.png)
+![alt text](./img/image-14.png)
 
 > **Implementation:** Create `.mcp.json` in project root:
 > ```json

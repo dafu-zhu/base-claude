@@ -2,6 +2,21 @@
 
 **Project uses `uv` for dependency management. Always use `ruff` for linting/formatting, `pytest` for tests.**
 
+## CRITICAL: Plan Mode First
+
+**ALWAYS propose entering plan mode for ANY implementation task.** This includes:
+- Creating or modifying features (even small ones like "add a button")
+- Bug fixes beyond single-line typos
+- Multi-file changes or refactors
+- Performance optimizations
+- ANY change that will result in a PR
+
+**How to enter plan mode:** Proactively ask the user "Should I enter plan mode to plan this implementation?" or use the EnterPlanMode tool when appropriate.
+
+**Exception:** Only skip plan mode for trivial tasks (single-line typo fixes, adding debug logs, pure research questions).
+
+**Why:** Planning prevents wasted implementation effort. Exploring the codebase and drafting an approach takes 30 seconds but saves 5+ minutes of fixing incorrect implementations.
+
 ## Initial Setup (for new projects)
 ```sh
 # Initialize project with uv

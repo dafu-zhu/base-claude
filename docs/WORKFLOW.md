@@ -90,13 +90,22 @@ Open 5 iTerm tabs, run `claude` in each:
 Enable iTerm notifications to know when Claude needs input.
 
 ### Key Shortcuts
-- `Shift+Tab` twice: Enter plan mode before complex tasks
+- `Shift+Tab` twice: **ALWAYS** enter plan mode first (see below)
 - `/model`: Switch between Sonnet/Opus
 - `/commit-push-pr`: Git workflow
 - `Ctrl+C`: Interrupt Claude
 
 ### Best Practices
-1. **Always use plan mode** for multi-file changes
+1. **MANDATORY: Enter plan mode for ALL coding tasks** - Press `Shift+Tab` twice before ANY:
+   - Feature additions (even "just add a button")
+   - Multi-file changes or refactors
+   - Bug fixes (except single-line typos)
+   - Performance improvements
+   - Code that affects existing behavior
+   - ANY task you'd create a PR for
+
+   **Rule of thumb:** If Claude will write >10 lines of code, use plan mode. When in doubt, plan. Planning takes 30 seconds; fixing bad implementations takes 5+ minutes.
+
 2. **Give Claude verification methods** (tests, CLI output, browser)
 3. **Let auto-formatting work** - hooks run ruff automatically
 4. **Use uv run** for consistency - ensures correct environment
