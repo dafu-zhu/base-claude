@@ -87,7 +87,7 @@ uv add --dev pytest-cov
 /commit-push-pr        # In Claude Code
 ```
 
-See **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** for detailed setup instructions.
+See the [Claude Code documentation](https://code.claude.com/docs) for detailed setup and usage instructions.
 
 ## Customization
 
