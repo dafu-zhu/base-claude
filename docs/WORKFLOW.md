@@ -79,6 +79,13 @@ gh pr create
 
 ## Claude Code Tips
 
+### Session Management
+- **`&` suffix** - Upload terminal session to web: `claude> Your task &`
+- **`--teleport`** - Pull web session to terminal: `claude --teleport`
+- **`--resume`** - Continue any previous session: `claude --resume`
+
+See **[Ampersand Command Tutorial](./AMPERSAND_TUTORIAL.md)** for complete session handoff guide.
+
 ### Parallel Development
 Open 5 iTerm tabs, run `claude` in each:
 - Tab 1: Main feature work
@@ -88,6 +95,8 @@ Open 5 iTerm tabs, run `claude` in each:
 - Tab 5: Refactoring
 
 Enable iTerm notifications to know when Claude needs input.
+
+**Pro tip:** Use `&` to hand off long-running tasks to web, freeing your terminal.
 
 ### Key Shortcuts
 - `Shift+Tab` twice: **ALWAYS** enter plan mode first (see below)
@@ -202,6 +211,12 @@ source ~/.zshrc
 
 ## Resources
 
+### Documentation
+- [Ampersand Command Tutorial](./AMPERSAND_TUTORIAL.md) - Session handoff guide
+- [Setup Guide](./SETUP_GUIDE.md) - Initial configuration
+- [Boris's Full Workflow](../tutorial.md) - Complete productivity setup
+
+### External Resources
 - [Claude Code Docs](https://code.claude.com/docs)
 - [uv Documentation](https://docs.astral.sh/uv/)
 - [Ruff Documentation](https://docs.astral.sh/ruff/)
