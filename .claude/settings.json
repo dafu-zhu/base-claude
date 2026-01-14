@@ -1,0 +1,43 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | { read file_path; if echo \"$file_path\" | grep -q '\\.py$'; then ruff format \"$file_path\" && ruff check --fix \"$file_path\" 2>/dev/null || true; fi; }"
+          }
+        ]
+      }
+    ]
+  },
+  "allowedCommands": [
+    "git:*",
+    "ls:*",
+    "tree:*",
+    "pwd:*",
+    "which:*",
+    "echo:*",
+    "date:*",
+    "wc:*",
+    "head:*",
+    "tail:*",
+    "diff:*",
+    "python:*",
+    "python3:*",
+    "pip:*",
+    "pip3:*",
+    "ruff:*",
+    "pytest:*",
+    "mypy:*",
+    "uv:*",
+    "conda:*",
+    "gh:*",
+    "aws:*",
+    "docker:*",
+    "kubectl get:*",
+    "kubectl describe:*",
+    "kubectl logs:*"
+  ]
+}
