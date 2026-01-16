@@ -6,7 +6,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.file_path' | { read file_path; if echo \"$file_path\" | grep -q '\\.py$'; then ruff format \"$file_path\" && ruff check --fix \"$file_path\" 2>/dev/null || true; fi; }"
+            "command": "jq -r '.tool_input.file_path' | bash ~/.claude/hooks/format-python.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/check-milestone.sh"
           }
         ]
       }
@@ -36,8 +45,9 @@
     "gh:*",
     "aws:*",
     "docker:*",
-    "kubectl get:*",
-    "kubectl describe:*",
-    "kubectl logs:*"
+    "kubectl:*",
+    "bash:*",
+    "jq:*",
+    "cat:*"
   ]
 }

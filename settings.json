@@ -1,0 +1,7 @@
+{
+  "model": "sonnet",
+  "enabledPlugins": {
+    "claude-delegator@jarrodwatts-claude-delegator": true,
+    "ralph-loop@claude-plugins-official": true
+  }
+}
