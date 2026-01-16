@@ -345,13 +345,52 @@ Success Criteria:
 
 ### Agent Types
 
+For complete agent documentation, see [AGENT-CATALOG.md](../AGENT-CATALOG.md).
+
+#### Quality Agents
+
 | Agent | Purpose | When to Use |
 |-------|---------|-------------|
-| **code-improver** | Code quality, refactoring | Tasks with code complexity issues |
-| **test-runner** | Test execution, coverage | Tasks requiring test verification |
-| **security-auditor** | Security scanning | Tasks handling sensitive data or auth |
-| **build-validator** | Build verification | Tasks modifying build config |
-| **dependency-manager** | Dependency updates | Tasks adding/updating packages |
+| **code-reviewer** | Code quality, security, best practices | Code review, finding vulnerabilities |
+| **code-improvement-scanner** | Proactive quality scanning | After implementation, before PRs |
+| **debugger** | Issue diagnosis, root cause analysis | Bug investigation, runtime errors |
+
+#### Infrastructure Agents
+
+| Agent | Purpose | When to Use |
+|-------|---------|-------------|
+| **build-engineer** | Build optimization, compilation | Build time reduction, caching |
+| **dependency-manager** | Package management, versions | Adding/updating dependencies |
+| **git-workflow-manager** | Version control workflows | Branching, merging, git operations |
+| **cli-developer** | CLI development, UX | Building command-line tools |
+
+#### Architecture Agents
+
+| Agent | Purpose | When to Use |
+|-------|---------|-------------|
+| **architect-reviewer** | Design validation, tech decisions | Architecture review, tech choices |
+
+#### Documentation Agents
+
+| Agent | Purpose | When to Use |
+|-------|---------|-------------|
+| **documentation-engineer** | Technical docs, tutorials | Creating/maintaining documentation |
+| **api-documenter** | API docs, OpenAPI specs | REST API documentation |
+
+#### Specialized Agents
+
+| Agent | Purpose | When to Use |
+|-------|---------|-------------|
+| **ai-engineer** | AI/ML systems, model deployment | AI features, ML pipelines |
+| **fintech-engineer** | Financial systems, compliance | Payment processing, banking |
+| **quant-analyst** | Financial modeling, algorithms | Trading algorithms, risk metrics |
+| **risk-manager** | Risk assessment, mitigation | Risk analysis, compliance |
+
+#### Research Agents
+
+| Agent | Purpose | When to Use |
+|-------|---------|-------------|
+| **research-analyst** | Information gathering, synthesis | Technology research, analysis |
 
 ### Coordination Pattern
 

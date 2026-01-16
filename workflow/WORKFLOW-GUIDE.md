@@ -133,6 +133,40 @@ orchestrator agent (top-level coordinator)
 
 ---
 
+## Available Agents
+
+The workflow system has access to 15 shared agents for specialized tasks. For complete details, see [AGENT-CATALOG.md](./AGENT-CATALOG.md).
+
+### Agent Quick Reference
+
+| Category | Agents | Use For |
+|----------|--------|---------|
+| **Quality** | `code-reviewer`, `code-improvement-scanner`, `debugger` | Code review, quality scans, bug diagnosis |
+| **Infrastructure** | `build-engineer`, `dependency-manager`, `git-workflow-manager`, `cli-developer` | Build optimization, packages, git, CLI tools |
+| **Architecture** | `architect-reviewer` | Design validation, tech decisions |
+| **Documentation** | `documentation-engineer`, `api-documenter` | Technical docs, API specs |
+| **Specialized** | `ai-engineer`, `fintech-engineer`, `quant-analyst`, `risk-manager` | AI/ML, financial systems, risk |
+| **Research** | `research-analyst` | Information gathering, analysis |
+
+### Spawning Agents
+
+```typescript
+Task({
+  subagent_type: "code-reviewer",
+  prompt: `Review changes in src/auth/ for security issues`,
+  description: "Security review"
+})
+```
+
+### Common Patterns
+
+- **Code changes**: `code-reviewer` + `code-improvement-scanner`
+- **Build updates**: `build-engineer` + `dependency-manager`
+- **Documentation**: `documentation-engineer` + `api-documenter`
+- **Financial features**: `fintech-engineer` + `quant-analyst` + `risk-manager`
+
+---
+
 ## Task Document Format
 
 ### Required Sections

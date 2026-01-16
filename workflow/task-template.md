@@ -89,6 +89,16 @@
 - `code-reviewer` (GPT - if complex design)
 - `architect` (GPT - if architectural decisions needed)
 
+> **Agent Selection Guide**: See [AGENT-CATALOG.md](./AGENT-CATALOG.md)
+>
+> Common choices:
+> - Code changes: `code-reviewer`, `code-improvement-scanner`
+> - Build/deps: `build-engineer`, `dependency-manager`
+> - Docs: `documentation-engineer`, `api-documenter`
+> - Debug: `debugger`
+> - Architecture: `architect-reviewer`
+> - Domain: `ai-engineer`, `fintech-engineer`, `cli-developer`
+
 **Complexity**: Simple | Medium | High
 
 **Dependencies**: [Other tasks this depends on, or "None"]
