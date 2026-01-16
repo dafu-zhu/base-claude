@@ -177,11 +177,11 @@ Never use: pip, setuptools, black, flake8
 
 ---
 
-## Unified Workflow System (Default)
+## Automated Workflow System (Default)
 
-**IMPORTANT: Use `/unified-workflow` for all complex implementation tasks.**
+**IMPORTANT: Use `/workflow` for all complex implementation tasks.**
 
-### When to Use Unified Workflow
+### When to Use Workflow
 - Complex tasks (3+ steps, multi-file changes)
 - New features requiring architecture decisions
 - Tasks requiring security review
@@ -189,7 +189,7 @@ Never use: pip, setuptools, black, flake8
 - When quality assurance critical
 
 ### Task Document Required
-Template: `~/.claude/templates/unified-task-template.md`
+Template: `~/.claude/templates/task-template.md`
 Examples: `~/.claude/examples/`
 
 ### Workflow Phases (Automatic)

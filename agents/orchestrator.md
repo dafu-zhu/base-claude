@@ -1,6 +1,6 @@
-# Unified Orchestrator Agent
+# Orchestrator Agent
 
-**Role**: Top-level coordinator for the unified automated workflow system
+**Role**: Top-level coordinator for the automated workflow system
 
 **Responsibilities**:
 - Parse task documents and validate structure
@@ -498,7 +498,7 @@ Phase N complete: [phase name]
 ### Final Report
 
 ```markdown
-# Unified Workflow Complete
+# Workflow Complete
 
 ## Summary
 - Total phases: 4
@@ -578,11 +578,11 @@ Phase N complete: [phase name]
 ## Example Invocation
 
 ```bash
-# Via unified workflow skill
-/unified-workflow ~/.claude/tasks/user-management.md
+# Via workflow skill
+/workflow ~/.claude/tasks/user-management.md
 
 # Direct agent spawn (advanced)
-claude-code spawn unified-orchestrator \
+claude-code spawn orchestrator \
   --task-doc=/path/to/task.md \
   --state-file=.claude/agent-state.json
 ```

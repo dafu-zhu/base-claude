@@ -1,4 +1,4 @@
-# Base Claude - Unified Workflow System
+# Base Claude - Workflow System
 
 Comprehensive automation framework for Claude Code with plan mode, supervisor oversight, Ralph loops, and GPT expert integration.
 
@@ -8,19 +8,19 @@ Comprehensive automation framework for Claude Code with plan mode, supervisor ov
 
 ```bash
 # 1. Create task document from template
-cp templates/unified-task-template.md ~/my-task.md
+cp templates/task-template.md ~/my-task.md
 
 # 2. Fill in task details (see examples/)
 
-# 3. Run unified workflow
-/unified-workflow ~/my-task.md
+# 3. Run workflow
+/workflow ~/my-task.md
 ```
 
 ---
 
 ## Overview
 
-The unified workflow system provides:
+The workflow system provides:
 - **Plan mode** - Mandatory upfront question-gathering
 - **Phase/task hierarchy** - Structured execution
 - **Ralph loops** - Task-level improvement + outer quality pass
@@ -35,25 +35,25 @@ The unified workflow system provides:
 ```
 base-claude/
 ├── agents/                    # Agent definitions
-│   ├── unified-orchestrator.md   # Top-level coordinator
+│   ├── orchestrator.md   # Top-level coordinator
 │   ├── supervisor.md              # Conflict detection
 │   ├── task-executor.md           # Single-task Ralph loop
 │   ├── outer-ralph.md             # Whole-work quality improvement
 │   └── ...                        # Other agents
 ├── templates/                 # Task document templates
-│   ├── unified-task-template.md   # Main template
+│   ├── task-template.md   # Main template
 │   └── ...
 ├── examples/                  # Example task documents
-│   ├── unified-simple-example.md   # Simple task (input validation)
-│   ├── unified-complex-example.md  # Complex task (multi-tenant SaaS)
+│   ├── simple-example.md   # Simple task (input validation)
+│   ├── complex-example.md  # Complex task (multi-tenant SaaS)
 │   └── ...
 ├── skills/                    # Invocable skills
-│   ├── unified-workflow.md        # Main workflow skill
+│   ├── workflow.md        # Main workflow skill
 │   ├── compact-checkpoint.md      # Context compaction
 │   ├── milestone-issue.md         # Milestone tracking
 │   └── ...
 ├── docs/                      # Documentation
-│   ├── UNIFIED-WORKFLOW-GUIDE.md  # Comprehensive user guide
+│   ├── WORKFLOW-GUIDE.md          # Comprehensive user guide
 │   ├── STATE-SCHEMA.md            # State management schema
 │   └── ...
 ├── rules/                     # Delegator system (GPT experts)
@@ -73,7 +73,7 @@ base-claude/
 
 | Agent | Role | Invoked By |
 |-------|------|------------|
-| **unified-orchestrator** | Top-level coordinator for entire workflow | unified-workflow skill |
+| **orchestrator** | Top-level coordinator for entire workflow | workflow skill |
 | **supervisor** | Detects conflicts (architecture, dependencies, API) | Orchestrator (pre/post task) |
 | **task-executor** | Executes single task with Ralph loop | Orchestrator (per task) |
 | **outer-ralph** | Improves whole-work quality after phases complete | Orchestrator (at end) |
@@ -82,13 +82,13 @@ base-claude/
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
-| **unified-workflow** | `/unified-workflow task-doc.md` | Execute complete workflow |
+| **workflow** | `/workflow task-doc.md` | Execute complete workflow |
 | **compact-checkpoint** | `/compact` | Compact context and checkpoint state |
 | **milestone-issue** | (automatic) | Create GitHub milestone issues |
 
 ### Templates
 
-- **unified-task-template.md** - Comprehensive task document template with:
+- **task-template.md** - Comprehensive task document template with:
   - Goal, context, success criteria
   - Phases and tasks
   - Supervisor configuration
@@ -97,8 +97,8 @@ base-claude/
 
 ### Examples
 
-- **unified-simple-example.md** - Input validation (1 phase, 2 tasks)
-- **unified-complex-example.md** - Multi-tenant SaaS platform (5 phases, 12 tasks)
+- **simple-example.md** - Input validation (1 phase, 2 tasks)
+- **complex-example.md** - Multi-tenant SaaS platform (5 phases, 12 tasks)
 
 ---
 
@@ -221,12 +221,12 @@ Workflow pauses and asks for approval if limits approached.
 
 ```bash
 # Use simple example as reference
-cp examples/unified-simple-example.md ~/input-validation.md
+cp examples/simple-example.md ~/input-validation.md
 
 # Customize for your needs
 
 # Run workflow
-/unified-workflow ~/input-validation.md
+/workflow ~/input-validation.md
 ```
 
 **Expected**:
@@ -245,12 +245,12 @@ cp examples/unified-simple-example.md ~/input-validation.md
 
 ```bash
 # Use complex example as reference
-cp examples/unified-complex-example.md ~/multi-tenant-saas.md
+cp examples/complex-example.md ~/multi-tenant-saas.md
 
 # Customize for your needs
 
 # Run workflow
-/unified-workflow ~/multi-tenant-saas.md
+/workflow ~/multi-tenant-saas.md
 ```
 
 **Expected**:
@@ -268,7 +268,7 @@ cp examples/unified-complex-example.md ~/multi-tenant-saas.md
 
 ## Documentation
 
-- **UNIFIED-WORKFLOW-GUIDE.md** - Comprehensive user guide (architecture, execution flow, troubleshooting, FAQ)
+- **WORKFLOW-GUIDE.md** - Comprehensive user guide (architecture, execution flow, troubleshooting, FAQ)
 - **STATE-SCHEMA.md** - State management schema and query commands
 - **preferences.md** - Global behavioral preferences and defaults
 
@@ -301,8 +301,8 @@ cp examples/unified-complex-example.md ~/multi-tenant-saas.md
 
 | Old | New |
 |-----|-----|
-| `/automated-workflow "task"` | Create task doc → `/unified-workflow task.md` |
-| `/ralph` | Create task doc → `/unified-workflow task.md` |
+| `/automated-workflow "task"` | Create task doc → `/workflow task.md` |
+| `/ralph` | Create task doc → `/workflow task.md` |
 
 **Benefits**:
 - Supervisor oversight (catch conflicts early)
@@ -339,19 +339,19 @@ See `docs/UNIFIED-WORKFLOW-GUIDE.md` for comprehensive troubleshooting.
 
 ```bash
 # Copy agents
-cp agents/{unified-orchestrator,supervisor,task-executor,outer-ralph}.md ~/.claude/agents/
+cp agents/{orchestrator,supervisor,task-executor,outer-ralph}.md ~/.claude/agents/
 
 # Copy templates
-cp templates/unified-task-template.md ~/.claude/templates/
+cp templates/task-template.md ~/.claude/templates/
 
 # Copy examples
-cp examples/unified-*.md ~/.claude/examples/
+cp examples/{simple,complex}-example.md ~/.claude/examples/
 
 # Copy skills
-cp skills/unified-workflow.md ~/.claude/skills/
+cp skills/workflow.md ~/.claude/skills/
 
 # Copy documentation
-cp docs/{STATE-SCHEMA,UNIFIED-WORKFLOW-GUIDE}.md ~/.claude/
+cp docs/{STATE-SCHEMA,WORKFLOW-GUIDE}.md ~/.claude/
 
 # Copy preferences
 cp preferences.md ~/.claude/

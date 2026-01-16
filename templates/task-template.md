@@ -1,4 +1,4 @@
-# Unified Task: [Task Name]
+# Task: [Task Name]
 
 > **Template Version**: 1.0
 > **Created**: [Date]

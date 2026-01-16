@@ -1,4 +1,4 @@
-# Unified Task: Multi-Tenant SaaS Platform with Real-Time Analytics
+# Task: Multi-Tenant SaaS Platform with Real-Time Analytics
 
 > **Template Version**: 1.0
 > **Created**: 2026-01-15

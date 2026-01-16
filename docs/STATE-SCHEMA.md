@@ -1,4 +1,4 @@
-# Unified Workflow State Schema
+# Workflow State Schema
 
 **Version**: 1.0
 **Last Updated**: 2026-01-15
@@ -7,7 +7,7 @@
 
 ## Overview
 
-The unified workflow system uses `.claude/agent-state.json` to track execution state across all phases, tasks, and agent invocations. This file is the single source of truth for workflow progress, supervisor activity, safety bounds, and learnings.
+The workflow system uses `.claude/agent-state.json` to track execution state across all phases, tasks, and agent invocations. This file is the single source of truth for workflow progress, supervisor activity, safety bounds, and learnings.
 
 ---
 
@@ -529,7 +529,7 @@ jq '.learnings[] | {task, type, lesson}' .claude/agent-state.json
 }
 ```
 
-**New format** (unified workflow):
+**New format** (workflow):
 ```json
 {
   "orchestrator": {
@@ -590,6 +590,6 @@ jq '.learnings[] | {task, type, lesson}' .claude/agent-state.json
 ## Schema Version History
 
 **v1.0** (2026-01-15):
-- Initial unified workflow state schema
+- Initial workflow state schema
 - Replaces old automated-workflow state format
 - Adds supervisor tracking, learnings, checkpoints

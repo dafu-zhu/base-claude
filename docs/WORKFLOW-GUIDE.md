@@ -1,4 +1,4 @@
-# Unified Workflow System Guide
+# Workflow Guide
 
 **Version**: 1.0
 **Last Updated**: 2026-01-15
@@ -24,7 +24,7 @@
 
 ## Overview
 
-The unified workflow system is a comprehensive automation framework that combines:
+The workflow system is a comprehensive automation framework that combines:
 - **Plan mode** (mandatory upfront question-gathering)
 - **Phase/task hierarchy** (structured execution)
 - **Ralph loops** (task-level improvement cycles + outer quality pass)
@@ -36,7 +36,7 @@ The unified workflow system is a comprehensive automation framework that combine
 
 - ❌ `automated-workflow` skill (deprecated)
 - ❌ `ralph` skill (deprecated)
-- ✅ `unified-workflow` skill (new, unified approach)
+- ✅ `workflow` skill (new, unified approach)
 
 ### Key Benefits
 
@@ -56,7 +56,7 @@ The unified workflow system is a comprehensive automation framework that combine
 Use the template:
 
 ```bash
-cp ~/.claude/templates/unified-task-template.md ~/my-task.md
+cp ~/.claude/templates/task-template.md ~/my-task.md
 ```
 
 Fill in:
@@ -68,13 +68,13 @@ Fill in:
 - Outer Ralph loop (enabled/disabled, success criteria)
 
 See examples:
-- Simple: `~/.claude/examples/unified-simple-example.md`
-- Complex: `~/.claude/examples/unified-complex-example.md`
+- Simple: `~/.claude/examples/simple-example.md`
+- Complex: `~/.claude/examples/complex-example.md`
 
-### Step 2: Run Unified Workflow
+### Step 2: Run Workflow
 
 ```bash
-/unified-workflow ~/my-task.md
+/workflow ~/my-task.md
 ```
 
 ### Step 3: Monitor Progress
@@ -105,9 +105,9 @@ Check:
 ```
 User
   ↓
-/unified-workflow skill
+/workflow skill
   ↓
-unified-orchestrator agent (top-level coordinator)
+orchestrator agent (top-level coordinator)
   ↓
   ├─ FOR EACH phase:
   │   ├─ FOR EACH task:
@@ -125,7 +125,7 @@ unified-orchestrator agent (top-level coordinator)
 
 | Agent | Role | When Invoked |
 |-------|------|--------------|
-| **unified-orchestrator** | Top-level coordinator | Once per workflow |
+| **orchestrator** | Top-level coordinator | Once per workflow |
 | **supervisor** | Conflict detection | Pre/post each task |
 | **task-executor** | Single-task execution with Ralph loop | Once per task |
 | **outer-ralph** | Whole-work quality improvement | Once at end |
@@ -703,14 +703,14 @@ GPT expert consultations incur API costs (~$0.20-$1.00 per call). Track in `safe
 **New**:
 ```bash
 # 1. Create task document
-cp ~/.claude/templates/unified-task-template.md ~/user-auth-task.md
+cp ~/.claude/templates/task-template.md ~/user-auth-task.md
 
 # 2. Fill in task document
 # - Goal: Implement user authentication
 # - Phases, tasks, success criteria
 
-# 3. Run unified workflow
-/unified-workflow ~/user-auth-task.md
+# 3. Run workflow
+/workflow ~/user-auth-task.md
 ```
 
 **Benefits**:
@@ -730,12 +730,12 @@ cp ~/.claude/templates/unified-task-template.md ~/user-auth-task.md
 
 **New**:
 ```bash
-# Ralph loop now automatic in unified workflow
+# Ralph loop now automatic in workflow
 # - Task-level Ralph: Every task
 # - Outer Ralph: After all phases
 
 # Create task document specifying what to improve
-/unified-workflow ~/improvement-task.md
+/workflow ~/improvement-task.md
 ```
 
 **Benefits**:
@@ -758,7 +758,7 @@ cp ~/.claude/templates/unified-task-template.md ~/user-auth-task.md
 
 **New**:
 1. User creates task document (or you help)
-2. `/unified-workflow task.md`
+2. `/workflow task.md`
 3. System asks ALL questions upfront
 4. User approves plan
 5. System executes with supervisor oversight
@@ -807,7 +807,7 @@ Run workflow within workflow:
 **Task 2.1**: Implement payment processing
 
 **Agents Needed**:
-- `unified-orchestrator` (run sub-workflow for Stripe integration)
+- `orchestrator` (run sub-workflow for Stripe integration)
 
 **Sub-task document**: `~/payment-stripe-task.md`
 ```
@@ -831,24 +831,24 @@ Run workflow within workflow:
 ## Resources
 
 **Templates**:
-- Task document: `~/.claude/templates/unified-task-template.md`
+- Task document: `~/.claude/templates/task-template.md`
 
 **Examples**:
-- Simple: `~/.claude/examples/unified-simple-example.md`
-- Complex: `~/.claude/examples/unified-complex-example.md`
+- Simple: `~/.claude/examples/simple-example.md`
+- Complex: `~/.claude/examples/complex-example.md`
 
 **Documentation**:
 - State schema: `~/.claude/STATE-SCHEMA.md`
 - Preferences: `~/.claude/preferences.md`
 
 **Agents**:
-- `~/.claude/agents/unified-orchestrator.md`
+- `~/.claude/agents/orchestrator.md`
 - `~/.claude/agents/supervisor.md`
 - `~/.claude/agents/task-executor.md`
 - `~/.claude/agents/outer-ralph.md`
 
 **Skills**:
-- `~/.claude/skills/unified-workflow.md`
+- `~/.claude/skills/workflow.md`
 - `~/.claude/skills/compact-checkpoint.md`
 - `~/.claude/skills/milestone-issue.md`
 
@@ -856,8 +856,8 @@ Run workflow within workflow:
 
 ## FAQ
 
-**Q: Do I need to use unified workflow for simple tasks?**
-A: No. For trivial tasks (typo fix, single-line change), use direct implementation. For anything complex (3+ steps, multi-file), use unified workflow.
+**Q: Do I need to use workflow for simple tasks?**
+A: No. For trivial tasks (typo fix, single-line change), use direct implementation. For anything complex (3+ steps, multi-file), use workflow.
 
 **Q: Can I disable supervisor?**
 A: Yes, set `Enable Supervisor: No` in task document. Not recommended except for very simple tasks.
@@ -877,7 +877,7 @@ A: Yes. State saved in `.claude/agent-state.json`. Restart from checkpoint.
 **Q: What if I need to change plan mid-execution?**
 A: Supervisor will detect conflicts and trigger re-plan automatically. Or manually re-enter plan mode.
 
-**Q: How long does unified workflow take?**
+**Q: How long does workflow take?**
 A: Depends on task complexity. Simple (1-2 tasks): 30m-1h. Complex (10+ tasks): 4-8h across multiple sessions.
 
 ---

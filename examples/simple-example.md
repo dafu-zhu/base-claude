@@ -1,4 +1,4 @@
-# Unified Task: Add Input Validation to API Endpoints
+# Task: Add Input Validation to API Endpoints
 
 > **Template Version**: 1.0
 > **Created**: 2026-01-15

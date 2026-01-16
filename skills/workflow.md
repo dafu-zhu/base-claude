@@ -1,14 +1,14 @@
-# Unified Workflow Skill
+# Workflow Skill
 
-**Name**: `unified-workflow`
-**Invocation**: `/unified-workflow <task-doc-path>`
+**Name**: `workflow`
+**Invocation**: `/workflow <task-doc-path>`
 **Purpose**: Execute comprehensive automated workflow with plan mode, phase/task hierarchy, Ralph loops, supervisor oversight, and outer Ralph quality pass
 
 ---
 
 ## Overview
 
-The unified workflow skill replaces and unifies:
+The workflow skill replaces and unifies:
 - `automated-workflow` (deprecated)
 - `ralph` (deprecated)
 
@@ -26,10 +26,10 @@ It provides a complete end-to-end workflow system that:
 
 ```bash
 # Basic usage
-/unified-workflow path/to/task-doc.md
+/workflow path/to/task-doc.md
 
 # With custom state file (advanced)
-/unified-workflow path/to/task-doc.md --state=custom-state.json
+/workflow path/to/task-doc.md --state=custom-state.json
 ```
 
 ---
@@ -37,10 +37,10 @@ It provides a complete end-to-end workflow system that:
 ## Prerequisites
 
 **Required files**:
-- Task document (see template: `~/.claude/templates/unified-task-template.md`)
+- Task document (see template: `~/.claude/templates/task-template.md`)
 
 **Required agents**:
-- `~/.claude/agents/unified-orchestrator.md`
+- `~/.claude/agents/orchestrator.md`
 - `~/.claude/agents/supervisor.md`
 - `~/.claude/agents/task-executor.md`
 - `~/.claude/agents/outer-ralph.md`
@@ -150,7 +150,7 @@ Return PR URL
 
 ## Invocation Flow
 
-**When user runs `/unified-workflow task-doc.md`**:
+**When user runs `/workflow task-doc.md`**:
 
 ```typescript
 // 1. Read and validate task document
@@ -168,11 +168,11 @@ initializeState({
   }
 })
 
-// 3. Spawn unified-orchestrator agent
+// 3. Spawn orchestrator agent
 Task({
-  subagent_type: "unified-orchestrator",
+  subagent_type: "orchestrator",
   prompt: `
-TASK: Execute unified workflow for: ${taskDoc.goal}
+TASK: Execute workflow for: ${taskDoc.goal}
 
 TASK DOCUMENT: ${taskDocPath}
 
@@ -422,7 +422,7 @@ Phase 2 complete: Core Features
 ### Final Report
 
 ```markdown
-# Unified Workflow Complete: [Task Name]
+# Workflow Complete: [Task Name]
 
 ## Summary
 - Total phases: 4
@@ -573,7 +573,7 @@ Update bounds and resume OR abort
 ### Example 1: Simple Task (Input Validation)
 
 ```bash
-/unified-workflow ~/.claude/examples/unified-simple-example.md
+/workflow ~/.claude/examples/simple-example.md
 ```
 
 **Expected flow**:
@@ -589,7 +589,7 @@ Update bounds and resume OR abort
 ### Example 2: Complex Task (Multi-Tenant SaaS)
 
 ```bash
-/unified-workflow ~/.claude/examples/unified-complex-example.md
+/workflow ~/.claude/examples/complex-example.md
 ```
 
 **Expected flow**:
@@ -664,7 +664,7 @@ Update bounds and resume OR abort
 
 ## Comparison with Deprecated Skills
 
-| Feature | Old (automated-workflow) | Old (ralph) | New (unified-workflow) |
+| Feature | Old (automated-workflow) | Old (ralph) | New (workflow) |
 |---------|-------------------------|-------------|------------------------|
 | Plan mode upfront | Optional | No | Mandatory |
 | Phase/task hierarchy | Yes | No | Yes |
@@ -682,11 +682,11 @@ Update bounds and resume OR abort
 ## Migration from Deprecated Skills
 
 **If you used `/automated-workflow` before**:
-- Now use: `/unified-workflow task-doc.md`
+- Now use: `/workflow task-doc.md`
 - Benefits: Supervisor oversight, Ralph loops per task, outer Ralph, GPT integration
 
 **If you used `/ralph` before**:
-- Now use: `/unified-workflow task-doc.md`
+- Now use: `/workflow task-doc.md`
 - Benefits: Phase/task structure, plan mode, supervisor, safety bounds
 
 **Task document required**:
@@ -699,7 +699,7 @@ Update bounds and resume OR abort
 ## Dependencies
 
 **Required**:
-- Agents: unified-orchestrator, supervisor, task-executor, outer-ralph
+- Agents: orchestrator, supervisor, task-executor, outer-ralph
 - Skills: compact-checkpoint, milestone-issue
 - Tools: TodoWrite, Bash, Read/Write/Edit, Task, AskUserQuestion, EnterPlanMode/ExitPlanMode
 
