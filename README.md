@@ -122,17 +122,36 @@ base-claude/
 
 ## Installation
 
-```bash
-# Clone to ~/.claude directory
-git clone https://github.com/yourusername/base-claude.git ~/.claude
+### Quick Install (Global)
 
-# Skills /prepare-task and /workflow now available
+```bash
+# Clone base-claude
+git clone https://github.com/yourusername/base-claude.git ~/base-claude
+
+# Run installer (preserves existing ~/.claude data)
+~/base-claude/scripts/install-global.sh
 ```
 
-**Advanced**: Symlink for live updates
+### Project-Only Install
+
 ```bash
-ln -s /path/to/base-claude ~/.claude
+# In your project directory
+git clone https://github.com/yourusername/base-claude.git .base-claude-src
+.base-claude-src/scripts/install-project.sh
 ```
+
+### What Gets Installed
+
+| Location | Contents |
+|----------|----------|
+| `commands/` | `/workflow`, `/prepare-task`, `/compact`, `/milestone` |
+| `agents/` | 20 agents (orchestrator, supervisor, task-executor, etc.) |
+| `skills/` | Skill documentation |
+| `templates/` | Task document template |
+| `examples/` | Simple and complex examples |
+| `rules/` | GPT expert delegation rules |
+
+See [INSTALL.md](INSTALL.md) for detailed installation options.
 
 ## Examples
 

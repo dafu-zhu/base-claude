@@ -1,0 +1,1 @@
+../../shared/skills/compact-checkpoint.md
