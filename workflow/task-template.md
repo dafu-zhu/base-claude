@@ -89,7 +89,7 @@
 - `code-reviewer` (GPT - if complex design)
 - `architect` (GPT - if architectural decisions needed)
 
-> **Agent Selection Guide**: See [AGENT-CATALOG.md](./AGENT-CATALOG.md)
+> **Agent Selection Guide**: See [AGENT-CATALOG.md](../docs/AGENT-CATALOG.md)
 >
 > Common choices:
 > - Code changes: `code-reviewer`, `code-improvement-scanner`

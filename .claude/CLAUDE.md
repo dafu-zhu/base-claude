@@ -1,82 +1,29 @@
-# Base Claude Workflow Configuration
+# Base Claude
 
-This project uses the modular automation system for Claude Code.
+## Commands
+`/prepare-task` → create task.md | `/workflow` → execute | `/compact` → checkpoint | `/milestone` → GitHub issue
 
-## Slash Commands
+## Agents
+**Workflow**: orchestrator, supervisor, task-executor, outer-ralph, task-refiner
+**Shared**: code-reviewer, code-improvement-scanner, debugger, architect-reviewer, build-engineer, dependency-manager, git-workflow-manager, documentation-engineer, api-documenter, ai-engineer, cli-developer, fintech-engineer, quant-analyst, risk-manager, research-analyst
 
-| Command | Description |
-|---------|-------------|
-| `/prepare-task <description>` | Create task documents interactively via task-refiner agent |
-| `/workflow <task.md>` | Execute structured workflows with plan mode, supervisor, quality pass |
-| `/compact` | Save checkpoint and compact context while preserving critical state |
-| `/milestone` | Create GitHub issue documenting workflow milestone |
+## Behavior
 
-## Available Agents
+**Style**: Extreme conciseness. Fragments. No articles. `[HH:MM] Status...`
 
-### Workflow Agents
-- `orchestrator` - Top-level workflow coordinator
-- `supervisor` - Conflict detection and oversight
-- `task-executor` - Task-level Ralph loop execution
-- `outer-ralph` - Final quality pass
+**Commits**: `type: description` (feat/fix/docs/refactor)
 
-### Task Writer Agents
-- `task-refiner` - Interactive task document generation
+**Planning**: Always plan mode first. Exceptions: typos, debug logs, "skip planning"
 
-### Shared Agents
-- `code-improvement-scanner` - Proactive code quality improvements
-- `ai-engineer` - AI/ML implementation
-- `build-engineer` - Build systems and CI/CD
-- `cli-developer` - CLI tool development
-- `code-reviewer` - Code review and quality
-- `architect-reviewer` - Architecture review
-- `debugger` - Debugging assistance
-- `documentation-engineer` - Documentation
-- `api-documenter` - API documentation
-- `git-workflow-manager` - Git operations
-- `dependency-manager` - Dependency management
-- `fintech-engineer` - Financial technology
-- `quant-analyst` - Quantitative analysis
-- `risk-manager` - Risk assessment
-- `research-analyst` - Research tasks
+**Branches**: `feature/`, `fix/`, `docs/`, `refactor/` — never edit on main
 
-## Quick Start
+**Compact**: After TODO/phase, milestone, delegation, 10+ tool calls
 
-```bash
-# Create a task document
-/prepare-task "Add user authentication to the API"
+**Delegate**: Architecture→Architect, Security→SecurityAnalyst, Review→CodeReviewer, 2+ failures→Architect
 
-# Execute the workflow
-/workflow ~/auth-task.md
-```
+**Tools**: gh, uv, ruff, pytest (avoid: pip, black, flake8)
 
-## Directory Structure
+**Limits**: 30 iterations, $10, 2hrs
 
-```
-.claude/
-├── commands/         # Slash commands
-│   ├── workflow.md       # /workflow
-│   ├── prepare-task.md   # /prepare-task
-│   ├── compact.md        # /compact
-│   └── milestone.md      # /milestone
-├── agents/           # Symlinks to all available agents
-├── skills/           # Symlinks to skill documentation
-├── templates/        # Task document template
-├── examples/         # Example task documents
-├── rules/            # Delegator rules for GPT experts
-└── settings.local.json
-```
-
-## State Files (Auto-created during workflow)
-
-- `agent-state.json` - Workflow execution state
-- `learnings.jsonl` - Append-only learning log
-- `locks.json` - File locking for parallel agents
-- `checkpoint.json` - Recovery checkpoints
-
-## Documentation
-
-- [README](../README.md) - Overview and quick start
-- [Architecture](../ARCHITECTURE.md) - System design
-- [Workflow Guide](../workflow/WORKFLOW-GUIDE.md) - Detailed workflow documentation
-- [Agent Catalog](../workflow/AGENT-CATALOG.md) - Agent descriptions
-- [State Schema](../docs/STATE-SCHEMA.md) - State file schemas
+## Docs
+[README](../README.md) | [Architecture](../docs/ARCHITECTURE.md) | [Workflow](../docs/WORKFLOW-GUIDE.md) | [Agents](../docs/AGENT-CATALOG.md) | [State](../docs/STATE-SCHEMA.md)

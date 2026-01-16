@@ -345,7 +345,7 @@ Success Criteria:
 
 ### Agent Types
 
-For complete agent documentation, see [AGENT-CATALOG.md](../AGENT-CATALOG.md).
+For complete agent documentation, see [AGENT-CATALOG.md](../../docs/AGENT-CATALOG.md).
 
 #### Quality Agents
 

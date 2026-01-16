@@ -569,7 +569,7 @@ Next steps:
 
 Tips:
 - Read examples/ for reference
-- See docs/WORKFLOW-GUIDE.md for details
+- See ../docs/WORKFLOW-GUIDE.md for details
 - Task document is editable - adjust as you learn
 ```
 

@@ -30,7 +30,6 @@ base-claude/
 │
 ├── docs/                     # Global Documentation
 ├── rules/                    # Delegator (GPT experts)
-├── preferences.md
 └── settings.json
 ```
 

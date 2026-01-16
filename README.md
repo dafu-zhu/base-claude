@@ -125,18 +125,20 @@ base-claude/
 ### Quick Install (Global)
 
 ```bash
-# Clone base-claude
-git clone https://github.com/yourusername/base-claude.git ~/base-claude
+# Clone base-claude to a permanent location
+git clone https://github.com/dafu-zhu/base-claude.git ~/Documents/GitHub/base-claude
 
-# Run installer (preserves existing ~/.claude data)
-~/base-claude/scripts/install-global.sh
+# Run installer (preserves existing ~/.claude data, creates symlinks)
+~/Documents/GitHub/base-claude/scripts/install-global.sh
 ```
+
+**Note**: Keep the source directory - symlinks point to it.
 
 ### Project-Only Install
 
 ```bash
 # In your project directory
-git clone https://github.com/yourusername/base-claude.git .base-claude-src
+git clone https://github.com/dafu-zhu/base-claude.git .base-claude-src
 .base-claude-src/scripts/install-project.sh
 ```
 
@@ -151,7 +153,7 @@ git clone https://github.com/yourusername/base-claude.git .base-claude-src
 | `examples/` | Simple and complex examples |
 | `rules/` | GPT expert delegation rules |
 
-See [INSTALL.md](INSTALL.md) for detailed installation options.
+See [INSTALL.md](docs/INSTALL.md) for detailed installation options.
 
 ## Examples
 
@@ -176,9 +178,9 @@ See [INSTALL.md](INSTALL.md) for detailed installation options.
 | Topic | Location |
 |-------|----------|
 | **Task Writer** | task-writer/skill.md, task-writer/agents/task-refiner.md |
-| **Workflow** | workflow/WORKFLOW-GUIDE.md, workflow/task-template.md, workflow/examples/ |
-| **Shared** | docs/STATE-SCHEMA.md, docs/QUICK-REFERENCE.md, preferences.md |
-| **Architecture** | ARCHITECTURE.md |
+| **Workflow** | docs/WORKFLOW-GUIDE.md, workflow/task-template.md, workflow/examples/ |
+| **Shared** | docs/STATE-SCHEMA.md |
+| **Architecture** | docs/ARCHITECTURE.md |
 
 ## Best Practices
 
@@ -226,8 +228,8 @@ mv ~/.claude.backup/custom-agent.md ~/.claude/shared/agents/
 
 ## Support
 
-- **Guides**: task-writer/skill.md, workflow/WORKFLOW-GUIDE.md
-- **Reference**: docs/STATE-SCHEMA.md, ARCHITECTURE.md
+- **Guides**: task-writer/skill.md, docs/WORKFLOW-GUIDE.md
+- **Reference**: docs/STATE-SCHEMA.md, docs/ARCHITECTURE.md
 - **Examples**: workflow/examples/
 - **Issues**: GitHub issues
 

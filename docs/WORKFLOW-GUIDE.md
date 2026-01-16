@@ -873,7 +873,6 @@ Run workflow within workflow:
 
 **Documentation**:
 - State schema: `~/.claude/STATE-SCHEMA.md`
-- Preferences: `~/.claude/preferences.md`
 
 **Agents**:
 - `~/.claude/agents/orchestrator.md`

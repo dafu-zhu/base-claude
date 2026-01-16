@@ -30,15 +30,17 @@ git clone https://github.com/dafu-zhu/base-claude.git ~/.claude
 # 1. Backup existing data
 cp -r ~/.claude ~/.claude.backup
 
-# 2. Clone base-claude to a separate location
-git clone https://github.com/dafu-zhu/base-claude.git ~/base-claude
+# 2. Clone base-claude to a permanent location
+git clone https://github.com/dafu-zhu/base-claude.git ~/Documents/GitHub/base-claude
 
-# 3. Run merge script (preserves your data)
-~/base-claude/scripts/install-global.sh
+# 3. Run install script (preserves your data, creates symlinks)
+~/Documents/GitHub/base-claude/scripts/install-global.sh
 
 # 4. Verify
 ls ~/.claude/commands/  # Should show workflow.md, etc.
 ```
+
+**Important**: Keep the source directory! Symlinks point to it.
 
 ### What Gets Installed Globally
 
@@ -57,6 +59,20 @@ ls ~/.claude/commands/  # Should show workflow.md, etc.
 ├── cache/              # PRESERVED: Your cache
 └── ...                 # PRESERVED: Other user data
 ```
+
+### Global CLAUDE.md (Behavioral Preferences)
+
+CLAUDE.md defines behavioral preferences (communication style, planning rules, tool choices).
+
+```bash
+# Symlink (recommended - auto-updates)
+ln -sf ~/Documents/GitHub/base-claude/.claude/CLAUDE.md ~/.claude/CLAUDE.md
+
+# Or copy (manual updates)
+cp ~/Documents/GitHub/base-claude/.claude/CLAUDE.md ~/.claude/CLAUDE.md
+```
+
+**Priority**: Project `.claude/CLAUDE.md` overrides global `~/.claude/CLAUDE.md`.
 
 ---
 
