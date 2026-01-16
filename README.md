@@ -2,8 +2,6 @@
 
 Modular automation system for Claude Code with task writing, workflow execution, and shared utilities.
 
----
-
 ## Quick Start
 
 ```bash
@@ -13,8 +11,6 @@ Modular automation system for Claude Code with task writing, workflow execution,
 # 2. Execute workflow
 /workflow ~/auth-task.md
 ```
-
----
 
 ## Architecture
 
@@ -27,8 +23,6 @@ base-claude/
 └── rules/             # GPT expert integration
 ```
 
----
-
 ## Modules
 
 | Module | Purpose | Command | Key Components |
@@ -36,8 +30,6 @@ base-claude/
 | **task-writer** | Transform raw descriptions → complete task.md | `/prepare-task <description>` | Agent: task-refiner<br>Skill: /prepare-task |
 | **workflow** | Execute structured workflows with quality assurance | `/workflow <task.md>` | Agents: orchestrator, supervisor, task-executor, outer-ralph<br>Skill: /workflow<br>Template, examples, guide |
 | **shared** | Reusable utilities for all modules | Direct invocation | 15+ agents, 2 skills, 2 hooks |
-
----
 
 ## Module Details
 
@@ -65,8 +57,6 @@ base-claude/
 # You: All endpoints except /health
 # Agent: ✓ Task saved: ~/auth-task.md
 ```
-
----
 
 ### Workflow
 
@@ -103,8 +93,6 @@ base-claude/
 # ✓ PR created
 ```
 
----
-
 ### Shared
 
 **Purpose**: General-purpose utilities used by all modules
@@ -123,8 +111,6 @@ base-claude/
 
 **Hooks**: check-milestone.sh, format-python.sh
 
----
-
 ## Usage Patterns
 
 | Pattern | Command | Use When | Example |
@@ -133,8 +119,6 @@ base-claude/
 | **Manual Task Doc** | Copy template → edit → `/workflow` | Familiar with format | `cp workflow/task-template.md ~/task.md`<br>`/workflow ~/task.md` |
 | **Quick Inline** | `/workflow --inline` | Simple, well-defined tasks | `/workflow --inline "Add validation"` |
 | **Direct Agents** | Invoke agent directly | Single-purpose utility | `Task({subagent: "code-scanner", ...})` |
-
----
 
 ## Installation
 
@@ -150,8 +134,6 @@ git clone https://github.com/yourusername/base-claude.git ~/.claude
 ln -s /path/to/base-claude ~/.claude
 ```
 
----
-
 ## Examples
 
 | Complexity | Task | Time | Cost | Command |
@@ -159,8 +141,6 @@ ln -s /path/to/base-claude ~/.claude
 | **Simple** | Input validation | 30 min | ~$1 | `/prepare-task "Add validation"`<br>→ 1 phase, 2 tasks |
 | **Medium** | User authentication | 2-3 hrs | ~$5 | `/prepare-task "Add JWT auth"`<br>→ 3 phases, 6 tasks |
 | **Complex** | Multi-tenant SaaS | 6-8 hrs | ~$15-20 | `/prepare-task "Build SaaS platform"`<br>→ 5 phases, 12 tasks |
-
----
 
 ## Key Concepts
 
@@ -172,8 +152,6 @@ ln -s /path/to/base-claude ~/.claude
 | **Ralph Loop** | Iterative improvement: Implement → Verify → Review → Learn → Retry (task-level + outer quality pass) |
 | **Safety Bounds** | Prevent runaway execution: max iterations/cost/time, pause and ask if limits approached |
 
----
-
 ## Documentation
 
 | Topic | Location |
@@ -183,8 +161,6 @@ ln -s /path/to/base-claude ~/.claude
 | **Shared** | docs/STATE-SCHEMA.md, docs/QUICK-REFERENCE.md, preferences.md |
 | **Architecture** | ARCHITECTURE.md |
 
----
-
 ## Best Practices
 
 1. **Start with /prepare-task** - Don't write task.md manually
@@ -193,8 +169,6 @@ ln -s /path/to/base-claude ~/.claude
 4. **Trust the supervisor** - Re-plan when conflicts detected
 5. **Enable outer Ralph** - Final quality pass catches issues
 6. **Use safety bounds** - Prevent runaway costs/time
-
----
 
 ## Troubleshooting
 
@@ -206,8 +180,6 @@ ln -s /path/to/base-claude ~/.claude
 | Task executor fails repeatedly | Supervisor should trigger re-plan after 2 failures |
 | Cost exceeded | Reduce proactive GPT delegations or extend budget |
 | Module confusion | task-writer = create docs, workflow = execute, shared = utilities |
-
----
 
 ## Migration from Old Structure
 
@@ -224,8 +196,6 @@ mv ~/.claude.backup/custom-agent.md ~/.claude/shared/agents/
 # Update custom skills to reference new paths
 ```
 
----
-
 ## Contributing
 
 | Add | Location |
@@ -235,8 +205,6 @@ mv ~/.claude.backup/custom-agent.md ~/.claude/shared/agents/
 | Examples | workflow/examples/ |
 | Docs | Module-specific or docs/ |
 
----
-
 ## Support
 
 - **Guides**: task-writer/skill.md, workflow/WORKFLOW-GUIDE.md
@@ -244,13 +212,9 @@ mv ~/.claude.backup/custom-agent.md ~/.claude/shared/agents/
 - **Examples**: workflow/examples/
 - **Issues**: GitHub issues
 
----
-
 ## License
 
 MIT
-
----
 
 **Get Started**:
 
