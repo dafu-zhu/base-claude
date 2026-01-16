@@ -177,47 +177,80 @@ Never use: pip, setuptools, black, flake8
 
 ---
 
-## Automated Workflow Behavior
+## Unified Workflow System (Default)
 
-### Success Criteria (Required)
-Every automated task MUST define:
-- Tests passing
-- Linting clean
-- Coverage threshold
-- Custom verification
+**IMPORTANT: Use `/unified-workflow` for all complex implementation tasks.**
 
-### Safety Bounds (Required)
-- Max iterations: 50
+### When to Use Unified Workflow
+- Complex tasks (3+ steps, multi-file changes)
+- New features requiring architecture decisions
+- Tasks requiring security review
+- Multi-phase implementations
+- When quality assurance critical
+
+### Task Document Required
+Template: `~/.claude/templates/unified-task-template.md`
+Examples: `~/.claude/examples/`
+
+### Workflow Phases (Automatic)
+1. **Plan Mode** (mandatory upfront)
+   - Explore codebase
+   - Ask ALL questions in ONE interaction
+   - Get user approval
+2. **Execution** (phase → task → Ralph loop)
+   - Supervisor checks (pre/post task)
+   - Parallel agents as needed
+   - Checkpoints after each task
+3. **Outer Ralph** (final quality pass)
+   - Code quality scan
+   - Documentation completeness
+   - Security hardening
+   - Test coverage improvements
+4. **Completion**
+   - Create milestone issues per phase
+   - Generate comprehensive report
+   - Create PR
+
+### Supervisor Oversight (Automatic)
+**Pre-task checks**:
+- Architecture violations
+- Cross-task dependencies
+- API contract changes
+
+**Post-task checks**:
+- Pattern consistency (auto-fix minor issues)
+- Security vulnerabilities
+- Conflicts with pending tasks
+
+**Actions**:
+- PASS → Continue
+- AUTO_FIX → Fix minor issues autonomously
+- RE_PLAN → Major conflict, re-enter plan mode
+
+### Safety Bounds (Default)
+- Max iterations per task: 30
 - Max cost: $10
 - Max time: 2 hours
-- Max files per iteration: 10
+- Safety checks before each task
 
 ### Checkpointing (Automatic)
-Before each phase:
-```bash
-git stash push -m "checkpoint-phase-X-$(date +%s)"
-```
-
-After verification passes:
-```bash
-git stash drop
-```
-
-On failure:
-```bash
-git stash pop  # Rollback
-```
+After:
+- Each task completion
+- Each phase completion
+- Before supervisor interventions
+- Before outer Ralph loop
 
 ### Learning (Automatic)
-After each action, log to `~/.claude/learnings.jsonl`:
+After each action, log to `.claude/learnings.jsonl`:
 ```json
 {
   "timestamp": "2026-01-15T12:30:00Z",
-  "action": "Fixed SQL injection",
-  "outcome": "Tests passed",
-  "pattern": "Always parameterize queries",
-  "success": true,
-  "cost": 0.12
+  "task": "1.2",
+  "iteration": 2,
+  "type": "pattern",
+  "lesson": "Always check existing patterns before implementing",
+  "pattern": "Reuse existing modules",
+  "context": "Authentication implementation"
 }
 ```
 
