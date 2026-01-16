@@ -4,14 +4,14 @@
 
 ```bash
 git clone https://github.com/dafu-zhu/base-claude.git ~/base-claude && \
-cp -r ~/base-claude/.claude/* ~/.claude/ && echo "Done. Restart Claude Code."
+rsync -av ~/base-claude/.claude/ ~/.claude/ && echo "Done. Restart Claude Code."
 ```
 
 ## Project (single repo)
 
 ```bash
 git clone https://github.com/dafu-zhu/base-claude.git .base-claude && \
-cp -r .base-claude/.claude . && echo "Done. Restart Claude Code."
+rsync -av .base-claude/.claude/ .claude/ && echo "Done. Restart Claude Code."
 ```
 
 ## Verify
@@ -24,8 +24,8 @@ ls .claude/commands/    # Project
 ## Update
 
 ```bash
-cd ~/base-claude && git pull && cp -r .claude/* ~/.claude/   # Global
-cd .base-claude && git pull && cp -r .claude ../             # Project
+cd ~/base-claude && git pull && rsync -av .claude/ ~/.claude/   # Global
+cd .base-claude && git pull && rsync -av .claude/ ../.claude/   # Project
 ```
 
 ## Uninstall

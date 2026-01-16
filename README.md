@@ -7,13 +7,13 @@ Automation system for Claude Code.
 **Global** (all projects):
 ```bash
 git clone https://github.com/dafu-zhu/base-claude.git ~/base-claude && \
-cp -r ~/base-claude/.claude/* ~/.claude/ && echo "Done. Restart Claude Code."
+rsync -av ~/base-claude/.claude/ ~/.claude/ && echo "Done. Restart Claude Code."
 ```
 
 **Project** (single repo):
 ```bash
 git clone https://github.com/dafu-zhu/base-claude.git .base-claude && \
-cp -r .base-claude/.claude . && echo "Done. Restart Claude Code."
+rsync -av .base-claude/.claude/ .claude/ && echo "Done. Restart Claude Code."
 ```
 
 ## Commands
