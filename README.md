@@ -1,374 +1,533 @@
-# Base Claude - Workflow System
+# Base Claude
 
-Comprehensive automation framework for Claude Code with plan mode, supervisor oversight, Ralph loops, and GPT expert integration.
+Modular automation system for Claude Code with task writing, workflow execution, and shared utilities.
 
 ---
 
 ## Quick Start
 
+### 1. Create Task Document
+
 ```bash
-# 1. Create task document from template
-cp templates/task-template.md ~/my-task.md
+# Interactive task creation (recommended)
+/prepare-task "Add user authentication to the API"
 
-# 2. Fill in task details (see examples/)
+# Or copy template manually
+cp workflow/task-template.md ~/my-task.md
+```
 
-# 3. Run workflow
+### 2. Run Workflow
+
+```bash
 /workflow ~/my-task.md
 ```
 
 ---
 
-## Overview
+## Architecture
 
-The workflow system provides:
-- **Plan mode** - Mandatory upfront question-gathering
-- **Phase/task hierarchy** - Structured execution
-- **Ralph loops** - Task-level improvement + outer quality pass
-- **Supervisor oversight** - Conflict detection and resolution
-- **Parallel agents** - Efficient multi-agent coordination
-- **GPT experts** - Architecture, security, code review integration
-
----
-
-## Repository Structure
+This repository is organized into three modules:
 
 ```
 base-claude/
-├── agents/                    # Agent definitions
-│   ├── orchestrator.md   # Top-level coordinator
-│   ├── supervisor.md              # Conflict detection
-│   ├── task-executor.md           # Single-task Ralph loop
-│   ├── outer-ralph.md             # Whole-work quality improvement
-│   └── ...                        # Other agents
-├── templates/                 # Task document templates
-│   ├── task-template.md   # Main template
-│   └── ...
-├── examples/                  # Example task documents
-│   ├── simple-example.md   # Simple task (input validation)
-│   ├── complex-example.md  # Complex task (multi-tenant SaaS)
-│   └── ...
-├── skills/                    # Invocable skills
-│   ├── workflow.md        # Main workflow skill
-│   ├── compact-checkpoint.md      # Context compaction
-│   ├── milestone-issue.md         # Milestone tracking
-│   └── ...
-├── docs/                      # Documentation
-│   ├── WORKFLOW-GUIDE.md          # Comprehensive user guide
-│   ├── STATE-SCHEMA.md            # State management schema
-│   └── ...
-├── rules/                     # Delegator system (GPT experts)
-│   └── ...
-├── hooks/                     # Event hooks
-│   └── ...
-├── preferences.md             # Global behavioral preferences
-├── settings.json              # Claude Code settings
-└── README.md                  # This file
+├── task-writer/       # Module 1: Task document creation
+│   ├── agents/
+│   │   └── task-refiner.md
+│   └── skill.md (/prepare-task)
+│
+├── workflow/          # Module 2: Workflow execution
+│   ├── agents/
+│   │   ├── orchestrator.md
+│   │   ├── supervisor.md
+│   │   ├── task-executor.md
+│   │   └── outer-ralph.md
+│   ├── examples/
+│   │   ├── simple-example.md
+│   │   └── complex-example.md
+│   ├── task-template.md
+│   ├── skill.md (/workflow)
+│   └── WORKFLOW-GUIDE.md
+│
+├── shared/            # Module 3: Shared utilities
+│   ├── agents/        # General-purpose agents
+│   │   ├── code-improvement-scanner.md
+│   │   ├── ai-engineer.md
+│   │   └── ... (15+ agents)
+│   ├── skills/        # General-purpose skills
+│   │   ├── compact-checkpoint.md
+│   │   └── milestone-issue.md
+│   └── hooks/         # Event hooks
+│       ├── check-milestone.sh
+│       └── format-python.sh
+│
+├── docs/              # Documentation
+│   ├── STATE-SCHEMA.md
+│   ├── QUICK-REFERENCE.md
+│   └── SYSTEM-SUMMARY.md
+│
+├── rules/             # Delegator system (GPT experts)
+├── preferences.md     # Global behavioral preferences
+└── settings.json      # Claude Code settings
 ```
 
 ---
 
-## Core Components
+## Module 1: Task Writer
+
+**Purpose**: Transform raw task descriptions into complete, workflow-ready task documents.
+
+### Agent
+- **task-refiner** - Interviews you, asks clarifying questions, generates task.md
+
+### Skill
+- **`/prepare-task <description>`** - Interactive task document creation
+
+### What It Does
+1. Asks systematic questions (goal, context, phases, criteria)
+2. Suggests best practices (supervisor, outer Ralph, agents)
+3. Generates complete task.md
+4. Validates before saving
+
+### Example
+
+```bash
+# Start with rough idea
+/prepare-task "Add JWT authentication with role-based access"
+
+# Agent asks questions
+Agent: What exists today? No auth at all, or partial?
+You: No auth currently.
+
+Agent: What needs protection? All endpoints or specific ones?
+You: All endpoints except /health and /docs
+
+# Agent generates complete task.md
+Agent: ✓ Task document saved: ~/auth-task.md
+
+# Ready to execute
+/workflow ~/auth-task.md
+```
+
+### When to Use
+- Have rough idea, need structure
+- Unsure how to break down complex task
+- Want guidance on best practices
+- First time using workflow system
+
+---
+
+## Module 2: Workflow
+
+**Purpose**: Execute structured workflows with plan mode, supervisor oversight, and quality assurance.
 
 ### Agents
 
-| Agent | Role | Invoked By |
-|-------|------|------------|
-| **orchestrator** | Top-level coordinator for entire workflow | workflow skill |
-| **supervisor** | Detects conflicts (architecture, dependencies, API) | Orchestrator (pre/post task) |
-| **task-executor** | Executes single task with Ralph loop | Orchestrator (per task) |
-| **outer-ralph** | Improves whole-work quality after phases complete | Orchestrator (at end) |
+| Agent | Role |
+|-------|------|
+| **orchestrator** | Top-level coordinator, manages phases/tasks |
+| **supervisor** | Detects conflicts (architecture, dependencies, API) |
+| **task-executor** | Executes single task with Ralph loop |
+| **outer-ralph** | Final quality pass (code, docs, security, tests) |
 
-### Skills
+### Skill
+- **`/workflow <task-doc.md>`** - Execute complete workflow
 
-| Skill | Command | Purpose |
-|-------|---------|---------|
-| **workflow** | `/workflow task-doc.md` | Execute complete workflow |
-| **compact-checkpoint** | `/compact` | Compact context and checkpoint state |
-| **milestone-issue** | (automatic) | Create GitHub milestone issues |
+### What It Does
 
-### Templates
-
-- **task-template.md** - Comprehensive task document template with:
-  - Goal, context, success criteria
-  - Phases and tasks
-  - Supervisor configuration
-  - Outer Ralph configuration
-  - Delegation strategy
-
-### Examples
-
-- **simple-example.md** - Input validation (1 phase, 2 tasks)
-- **complex-example.md** - Multi-tenant SaaS platform (5 phases, 12 tasks)
-
----
-
-## Workflow Phases
-
-### 1. Plan Mode (Mandatory)
+**Phase 1: Plan Mode** (mandatory)
 - Parse task document
 - Explore codebase
-- Identify ALL questions
-- Ask user ALL questions upfront
-- Wait for approval
+- Ask ALL questions upfront
+- Wait for user approval
 
-### 2. Execution (Phase → Task → Ralph Loop)
-```
-FOR EACH phase:
-  FOR EACH task:
-    Supervisor pre-check → Task Ralph loop → Supervisor post-check → Commit
-  Create phase milestone issue
-```
+**Phase 2: Execution** (phase → task → Ralph loop)
+- Supervisor pre-check (architecture, dependencies)
+- Task Ralph loop (implement → verify → review → learn)
+- Supervisor post-check (conflicts, patterns)
+- Commit and checkpoint
 
-### 3. Outer Ralph Loop (Final Quality Pass)
+**Phase 3: Outer Ralph** (final quality)
 - Scan all changes
 - Fix code quality, docs, security, tests
 - Verify success criteria
 - Generate report
 
-### 4. Completion
-- Push changes
-- Create PR with comprehensive report
-- Link milestone issues
+**Phase 4: Completion**
+- Create milestone issues per phase
+- Generate comprehensive report
+- Create PR
 
----
-
-## Supervisor System
-
-**Pre-task checks**:
-- Architecture violations
-- Cross-task dependencies
-- API contract changes
-
-**Post-task checks**:
-- Pattern consistency
-- Security vulnerabilities
-- Conflicts with pending tasks
-
-**Actions**:
-- **PASS** - Continue
-- **AUTO_FIX** - Fix minor issues autonomously
-- **RE_PLAN** - Major conflict detected, re-enter plan mode
-
----
-
-## Ralph Loop Pattern
-
-### Task-Level Ralph
-```
-Implement → Verify → Review → Learn → Retry (until success or max iterations)
-```
-
-### Outer Ralph
-```
-Scan all changes → Prioritize improvements → Fix → Verify → Commit
-```
-
----
-
-## GPT Expert Integration
-
-Available experts via delegator system:
-- **Architect** - System design, tradeoffs, complex debugging
-- **Security Analyst** - Vulnerabilities, threat modeling, hardening
-- **Code Reviewer** - Code quality, bugs, maintainability
-- **Plan Reviewer** - Plan validation before execution
-- **Scope Analyst** - Pre-planning, catching ambiguities
-
-Configure in task document:
-```markdown
-## Delegation Strategy
-
-### Proactive Delegations
-**Architect**: [x] Consult before Phase 1
-**Security Analyst**: [x] Review after Phase 2
-**Code Reviewer**: [x] Review after each phase
-
-### Reactive Delegations
-- After 2+ failed iterations → Architect
-- Security issue detected → Security Analyst
-```
-
----
-
-## State Management
-
-**agent-state.json** - Single source of truth:
-- Orchestrator status (planning/executing/reviewing/completed)
-- Current phase and task
-- Supervisor interventions
-- Completed/pending tasks
-- Safety bounds (cost, time, iterations)
-- Learnings (patterns, antipatterns)
-
-See `docs/STATE-SCHEMA.md` for full schema.
-
----
-
-## Safety Bounds
-
-Default limits (configurable in task document):
-- **Max iterations per task**: 30
-- **Max cost**: $10
-- **Max time**: 2 hours
-
-Workflow pauses and asks for approval if limits approached.
-
----
-
-## Usage Examples
-
-### Simple Task: Input Validation
+### Example
 
 ```bash
-# Use simple example as reference
-cp examples/simple-example.md ~/input-validation.md
+# Run workflow with task document
+/workflow ~/auth-task.md
 
-# Customize for your needs
+# System asks questions upfront
+System: [Plan mode]
+- Should JWT tokens expire? If yes, how long?
+- What user roles: just authenticated/unauthenticated, or admin/user?
 
-# Run workflow
-/workflow ~/input-validation.md
+# After approval, executes automatically
+System: [Phase 1/3] Task 1.1: Create User model... ✓
+System: [Phase 1/3] Task 1.2: Implement JWT auth... ✓
+System: [Supervisor] Checking for conflicts... PASS
+System: [Phase 2/3] Task 2.1: Add auth middleware... ✓
+...
+System: [Outer Ralph] Improving code quality... 7 improvements applied
+System: [Complete] PR created: https://github.com/.../pull/123
 ```
 
-**Expected**:
-- Plan mode: Ask about validation rules
-- Phase 1, Task 1.1: Create validation middleware (1 iteration)
-- Phase 1, Task 1.2: Apply to endpoints (2 iterations)
-- Outer Ralph: Add docstrings (2 iterations)
-- PR created
+### Key Features
 
-**Time**: ~30 minutes
-**Cost**: ~$1
+**Supervisor Oversight**:
+- Pre-task: Catches architecture violations, dependency conflicts
+- Post-task: Ensures pattern consistency, security
+- Auto-fixes minor issues (naming, imports)
+- Triggers re-planning for major conflicts
+
+**Ralph Loops**:
+- Task-level: Each task iterates until success criteria met
+- Outer Ralph: Final quality pass for entire workflow
+
+**Safety Bounds**:
+- Max iterations per task (default: 30)
+- Max cost (e.g., $10)
+- Max time (e.g., 2h)
+- Pauses and asks if limits approached
+
+**Learning System**:
+- Records patterns discovered
+- Records antipatterns avoided
+- Applies learnings to future tasks
 
 ---
 
-### Complex Task: Multi-Tenant SaaS
+## Module 3: Shared
+
+**Purpose**: Reusable agents, skills, and hooks used by task-writer and workflow modules (and available for general use).
+
+### Agents (15+ general-purpose)
+
+**Code & Engineering**:
+- `code-improvement-scanner` - Scans for code quality issues
+- `ai-engineer` - AI/ML development specialist
+- `cli-developer` - CLI tool development
+- `build-engineer` - Build systems and CI/CD
+
+**Documentation & Analysis**:
+- `documentation-engineer` - Technical documentation
+- `api-documenter` - API documentation
+- `research-analyst` - Research and analysis
+
+**Domain-Specific**:
+- `fintech-engineer` - Financial systems
+- `quant-analyst` - Quantitative analysis
+- `risk-manager` - Risk assessment
+
+**Review & Quality**:
+- `code-reviewer` - Code review
+- `architect-reviewer` - Architecture review
+- `debugger` - Debugging assistance
+
+**Workflow Management**:
+- `git-workflow-manager` - Git workflow automation
+- `dependency-manager` - Dependency management
+
+### Skills
+
+- **`/compact`** - Compact context and checkpoint state
+- **`/milestone`** - Create GitHub milestone issues
+
+### Hooks
+
+- **check-milestone.sh** - Verify milestone completion
+- **format-python.sh** - Auto-format Python code
+
+### When to Use
+
+These are available for:
+- Direct invocation (e.g., `/compact`)
+- Use by workflow and task-writer modules
+- Custom workflows and automation
+- General development tasks
+
+---
+
+## Usage Patterns
+
+### Pattern 1: Structured Workflow (Recommended)
 
 ```bash
-# Use complex example as reference
-cp examples/complex-example.md ~/multi-tenant-saas.md
+# 1. Create task document
+/prepare-task "Build user management system"
 
-# Customize for your needs
+# 2. Execute workflow
+/workflow ~/user-management-task.md
 
-# Run workflow
-/workflow ~/multi-tenant-saas.md
+# Result: Complete implementation with quality assurance
 ```
 
-**Expected**:
-- Plan mode: Ask about multi-tenancy approach, analytics storage, etc.
-- Delegate to Architect for schema design
-- 5 phases, 12 tasks with supervisor oversight
-- Multiple GPT expert consultations
-- Outer Ralph with 15+ improvements
-- PR created with comprehensive report
+### Pattern 2: Manual Task Document
 
-**Time**: ~6-8 hours (across sessions)
-**Cost**: ~$15-20
+```bash
+# 1. Copy template
+cp workflow/task-template.md ~/my-task.md
 
----
+# 2. Fill in manually (see examples/)
 
-## Documentation
+# 3. Execute workflow
+/workflow ~/my-task.md
+```
 
-- **WORKFLOW-GUIDE.md** - Comprehensive user guide (architecture, execution flow, troubleshooting, FAQ)
-- **STATE-SCHEMA.md** - State management schema and query commands
-- **preferences.md** - Global behavioral preferences and defaults
+### Pattern 3: Quick Task (Skip Task Document)
 
----
+```bash
+# For simple, well-defined tasks
+/workflow --inline "Add input validation to /api/users endpoint"
 
-## Best Practices
+# System generates minimal task.md and executes
+```
 
-✅ **Do**:
-- Write clear, specific success criteria per task
-- Break large tasks into smaller ones (< 2h each)
-- Enable supervisor for multi-phase work
-- Enable outer Ralph for quality-critical work
-- Ask ALL questions upfront in plan mode
-- Trust supervisor verdicts
-- Learn from each Ralph iteration
+### Pattern 4: Use Shared Agents Directly
 
-❌ **Don't**:
-- Skip plan mode "because it's simple"
-- Make assumptions instead of asking
-- Ignore supervisor warnings
-- Skip outer Ralph to save time
-- Continue past max iterations hoping for success
-- Break functionality with improvements
+```bash
+# Scan code quality without full workflow
+Task({
+  subagent_type: "code-improvement-scanner",
+  prompt: "Scan src/ for code quality issues"
+})
 
----
-
-## Migration Guide
-
-**From deprecated skills**:
-
-| Old | New |
-|-----|-----|
-| `/automated-workflow "task"` | Create task doc → `/workflow task.md` |
-| `/ralph` | Create task doc → `/workflow task.md` |
-
-**Benefits**:
-- Supervisor oversight (catch conflicts early)
-- Ralph loop per task + outer Ralph (quality assurance)
-- GPT expert integration (better decisions)
-- Comprehensive reporting and learning
-
----
-
-## Troubleshooting
-
-**Workflow stuck in plan mode**:
-- Review plan, answer questions, approve explicitly
-
-**Task executor fails repeatedly**:
-- Supervisor should trigger re-plan after 2 failures
-- Clarify success criteria, update plan
-
-**Cost exceeded**:
-- Review delegation strategy (reduce proactive delegations)
-- Simplify approach (avoid over-engineering)
-- Extend budget if justified
-
-**Outer Ralph finds no improvements**:
-- This is success! Code quality already high
-
-See `docs/UNIFIED-WORKFLOW-GUIDE.md` for comprehensive troubleshooting.
+# Create milestone issue
+/milestone "Phase 1 Complete"
+```
 
 ---
 
 ## Installation
 
-**Copy to global Claude directory**:
+### Option 1: Use from Repository
 
 ```bash
-# Copy agents
-cp agents/{orchestrator,supervisor,task-executor,outer-ralph}.md ~/.claude/agents/
+# Clone repository
+git clone https://github.com/yourusername/base-claude.git ~/.claude
 
-# Copy templates
-cp templates/task-template.md ~/.claude/templates/
-
-# Copy examples
-cp examples/{simple,complex}-example.md ~/.claude/examples/
-
-# Copy skills
-cp skills/workflow.md ~/.claude/skills/
-
-# Copy documentation
-cp docs/{STATE-SCHEMA,WORKFLOW-GUIDE}.md ~/.claude/
-
-# Copy preferences
-cp preferences.md ~/.claude/
+# Skills will be available as /prepare-task and /workflow
 ```
 
-**Or symlink**:
+### Option 2: Copy to Global Directory
 
 ```bash
-# Symlink entire directory (advanced)
-ln -s /Users/zdf/Documents/GitHub/base-claude ~/.claude
+# Copy task-writer module
+cp -r task-writer ~/.claude/
+
+# Copy workflow module
+cp -r workflow ~/.claude/
+
+# Copy shared module
+cp -r shared ~/.claude/
+
+# Copy docs and preferences
+cp -r docs preferences.md settings.json ~/.claude/
 ```
+
+### Option 3: Symlink (Advanced)
+
+```bash
+# Symlink entire repo
+ln -s /path/to/base-claude ~/.claude
+```
+
+---
+
+## Documentation
+
+### Task Writer
+- **task-writer/skill.md** - `/prepare-task` documentation
+- **task-writer/agents/task-refiner.md** - Agent specification
+
+### Workflow
+- **workflow/WORKFLOW-GUIDE.md** - Comprehensive workflow guide
+- **workflow/task-template.md** - Task document template
+- **workflow/examples/** - Example task documents
+
+### Shared
+- **docs/STATE-SCHEMA.md** - State management schema
+- **docs/QUICK-REFERENCE.md** - Quick reference guide
+- **preferences.md** - Global behavioral preferences
+
+---
+
+## Key Concepts
+
+### Task Document
+Structured markdown file defining:
+- Goal (one clear sentence)
+- Context (current state, problem, constraints)
+- Phases and tasks
+- Success criteria (global and per-task)
+- Agents needed
+- Supervisor configuration
+- Outer Ralph configuration
+- Safety bounds
+
+### Plan Mode
+Mandatory upfront phase:
+- Explore codebase
+- Identify ALL unclear requirements
+- Ask ALL questions in ONE interaction
+- Wait for user approval
+- Then execute
+
+### Supervisor
+Conflict detection system:
+- Pre-task: Check for architecture violations, dependencies
+- Post-task: Verify pattern consistency, security
+- Actions: PASS, AUTO_FIX (minor), RE_PLAN (major)
+
+### Ralph Loop
+Iterative improvement cycle:
+- Task-level: Implement → Verify → Review → Learn → Retry
+- Outer Ralph: Final quality pass for entire workflow
+
+### Safety Bounds
+Prevent runaway execution:
+- Max iterations per task
+- Max cost (API usage)
+- Max time
+- Pause and ask if limits approached
+
+---
+
+## Examples
+
+### Simple: Input Validation
+
+**Time**: 30 minutes
+**Cost**: ~$1
+
+```bash
+/prepare-task "Add input validation to API endpoints"
+# Agent asks: Which endpoints? What validation?
+# Generates: 1 phase, 2 tasks
+
+/workflow ~/input-validation-task.md
+# Executes, runs outer Ralph, creates PR
+```
+
+### Medium: User Authentication
+
+**Time**: 2-3 hours
+**Cost**: ~$5
+
+```bash
+/prepare-task "Add JWT authentication with role-based access"
+# Agent asks about: Auth method, roles, protected routes
+# Generates: 3 phases, 6 tasks
+
+/workflow ~/auth-task.md
+# Executes with security audits, creates PR
+```
+
+### Complex: Multi-Tenant SaaS
+
+**Time**: 6-8 hours (multiple sessions)
+**Cost**: ~$15-20
+
+```bash
+/prepare-task "Build multi-tenant SaaS platform with analytics"
+# Agent asks 15+ questions, suggests Architect consultation
+# Generates: 5 phases, 12 tasks, comprehensive plan
+
+/workflow ~/saas-task.md
+# Executes with supervisor oversight, GPT expert consultations
+# Multiple checkpoints, outer Ralph with 15+ improvements
+# Creates PR with detailed report
+```
+
+---
+
+## Best Practices
+
+1. **Start with /prepare-task** - Don't write task.md manually
+2. **Answer questions thoroughly** - Better input = better task document
+3. **Review task document before executing** - It's editable markdown
+4. **Trust the supervisor** - Re-plan when major conflicts detected
+5. **Enable outer Ralph** - Final quality pass catches issues
+6. **Use safety bounds** - Prevent runaway costs/time
+7. **Learn from workflows** - Check learnings.jsonl for patterns
+
+---
+
+## Troubleshooting
+
+### Task Document Issues
+
+**Problem**: Task document rejected by workflow
+**Solution**: Use `/prepare-task` to generate valid document
+
+**Problem**: Success criteria too vague
+**Solution**: Make them specific and testable (e.g., "tests pass" not "works well")
+
+### Workflow Issues
+
+**Problem**: Stuck in plan mode
+**Solution**: Answer questions and explicitly approve
+
+**Problem**: Task executor fails repeatedly
+**Solution**: Supervisor should trigger re-plan after 2 failures
+
+**Problem**: Cost exceeded
+**Solution**: Reduce proactive GPT delegations or extend budget
+
+### Module Confusion
+
+**Problem**: Which agent to use?
+**Solution**:
+- Task-writer agents: Creating task documents
+- Workflow agents: Executing workflows
+- Shared agents: General-purpose tasks
+
+---
+
+## Migration Guide
+
+### From Old Structure
+
+If you have the old flat structure:
+
+```bash
+# Old (flat)
+~/.claude/
+├── agents/          # Mixed
+├── skills/          # Mixed
+├── templates/       # Mixed
+└── ...
+
+# New (modular)
+~/.claude/
+├── task-writer/     # Task creation
+├── workflow/        # Workflow execution
+├── shared/          # Utilities
+└── ...
+```
+
+**Steps**:
+1. Backup old structure: `cp -r ~/.claude ~/.claude.backup`
+2. Clone new structure: `git clone ... ~/.claude`
+3. Migrate custom agents to `shared/agents/`
+4. Update any custom skills to reference new paths
 
 ---
 
 ## Contributing
 
-Learnings recorded in `.claude/learnings.jsonl` feed future enhancements. Report issues or request features via GitHub issues.
+This repository is modular by design:
+
+- **Add agents**: Place in appropriate module (task-writer, workflow, or shared)
+- **Add skills**: Place in module-specific directory or shared/skills/
+- **Add examples**: workflow/examples/
+- **Update docs**: Keep module-specific docs in module, global docs in docs/
 
 ---
 
@@ -380,11 +539,22 @@ MIT
 
 ## Support
 
-- **Documentation**: `docs/UNIFIED-WORKFLOW-GUIDE.md`
-- **Examples**: `examples/`
-- **FAQ**: See guide
+- **Task Writer Guide**: task-writer/skill.md
+- **Workflow Guide**: workflow/WORKFLOW-GUIDE.md
+- **State Schema**: docs/STATE-SCHEMA.md
+- **Examples**: workflow/examples/
 - **Issues**: GitHub issues
 
 ---
 
-**Happy Automating!** 🚀
+**Get Started**:
+
+```bash
+# Create your first task
+/prepare-task "your task description"
+
+# Execute it
+/workflow ~/your-task.md
+```
+
+🚀 Happy Automating!
