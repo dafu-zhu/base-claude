@@ -4,33 +4,16 @@
 
 ```
 base-claude/
-│
-├── task-writer/              # Module 1: Task Document Creation
-│   ├── agents/
-│   │   └── task-refiner.md   # Interviews user, generates task.md
-│   └── skill.md              # /prepare-task command
-│
-├── workflow/                 # Module 2: Workflow Execution
-│   ├── agents/
-│   │   ├── orchestrator.md   # Top-level coordinator
-│   │   ├── supervisor.md     # Conflict detection
-│   │   ├── task-executor.md  # Task Ralph loop
-│   │   └── outer-ralph.md    # Final quality pass
-│   ├── examples/
-│   │   ├── simple-example.md
-│   │   └── complex-example.md
-│   ├── task-template.md
-│   ├── skill.md              # /workflow command
-│   └── WORKFLOW-GUIDE.md
-│
-├── shared/                   # Module 3: Shared Utilities
-│   ├── agents/               # 15+ general-purpose agents
-│   ├── skills/               # Reusable skills
-│   └── hooks/                # Event hooks
-│
-├── docs/                     # Global Documentation
-├── rules/                    # Delegator (GPT experts)
-└── settings.json
+├── .claude/
+│   ├── agents/           # All agents (20)
+│   ├── commands/         # Slash commands
+│   ├── skills/           # Skill definitions
+│   ├── templates/        # Task template
+│   ├── examples/         # Example tasks
+│   ├── rules/            # GPT delegation rules
+│   └── CLAUDE.md         # Behavioral preferences
+├── docs/                 # Documentation
+└── scripts/              # Install scripts
 ```
 
 ---
